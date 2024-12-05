@@ -1,4 +1,5 @@
 import express from 'express'
+import { readTask } from '../controllers/taskcontroller.js';
 
 
 const taskRoutes = express();
@@ -6,6 +7,7 @@ const taskRoutes = express();
 
 taskRoutes.get("/",(req,res)=>{
     try {
+        readTask()
         res.status(200).send({
             message:"welcome to task",
         })
