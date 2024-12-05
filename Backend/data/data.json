@@ -1,27 +1,30 @@
 [
-    {
-        "id": 1,
-        "title": "Learn Node.js",
-        "description": "Understand the basics of Node.js and Express",
-        "completed": false
-    },
-    {
-        "id": 2,
-        "title": "Build a Task Manager API",
-        "description": "Implement a simple CRUD API for task management",
-        "completed": false
-    },
-    {
-        "id": 3,
-        "title": "Test the API",
-        "description": "Use Postman to test all API endpoints",
-        "completed": true
-    },
-    {
-        "name": "majid"
-    },
-    {
-        "name": "zohaib",
-        "age": 24
-    }
+  {
+    "id": 1,
+    "title": "Learn Node.js",
+    "description": "Understand the basics of Node.js and Express",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "title": "Build a Task Manager API",
+    "description": "Implement a simple CRUD API for task management",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "title": "updated title",
+    "description": "Use Postman to test all API endpoints",
+    "completed": true
+  },
+  {
+    "name": "majid"
+  },
+  {
+    "name": "zohaib",
+    "age": 24
+  },
+  {
+    "name": "ajo"
+  }
 ]

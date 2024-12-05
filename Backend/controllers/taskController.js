@@ -1,68 +1,105 @@
 import express from "express";
 import fs from "fs";
-import { get } from "https";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const filePath = path.join(__dirname, "../data", "data.json");
-// console.log(filePath);
 
-// readTask
+// Read tasks
 export const readTask = () => {
-  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-  return data;
+  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 };
 
-// writeTask
-export const writeTask = (task) => {
-  const tasks = readTask();
-  tasks.push(task);
-  fs.writeFileSync(filePath, JSON.stringify(tasks));
+// Write tasks
+export const writeTask = (tasks) => {
+  fs.writeFileSync(filePath, JSON.stringify(tasks, null, 2));
 };
 
-// getAllTask
-export const getAllData = (req,res)=>{
+// Get all tasks
+export const getAllData = (req, res) => {
   try {
-    const data =  readTask()
-     res.status(200).send({
-         message:"welcome to task data",
-         task: data
-     })
- } catch (error) {
-     res.status(500).send({
-         message:"some thing went wrong with server",
-         error: error.message
-     })
- }
-}
+    const data = readTask();
+    res.status(200).send({
+      message: "Welcome to task data",
+      task: data,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Something went wrong with the server",
+      error: error.message,
+    });
+  }
+};
 
-
-//createTask
-export const createTask  = (req,res)=>{
+// Create a task
+export const createTask = (req, res) => {
   try {
-  const task =req.body
-  writeTask(task)
+    const task = req.body;
+    const tasks = readTask();
+    tasks.push(task);
+    writeTask(tasks);
 
-     res.status(201).send({
-         message:"task created sucessfully",
-         task: task
-     })
- } catch (error) {
-     res.status(500).send({
-         message:"some thing went wrong with server",
-         error: error.message
-     })
- }
-}
+    res.status(201).send({
+      message: "Task created successfully",
+      task: task,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Something went wrong with the server",
+      error: error.message,
+    });
+  }
+};
 
-export const updateTask = (req,res)=>{
-  const id = req.params.id
+// Update a task
+export const updateTask = (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const tasks = readTask();
+    const taskIndex = tasks.findIndex((task) => task.id === id);
 
-  const data = readTask()
-  const filterData = data.find((item)=>item.id == id)
-  console.log(filterData)
+    if (taskIndex === -1) {
+      return res.status(404).send({ message: "Task not found!" });
+    }
 
-}
+    tasks[taskIndex] = { ...tasks[taskIndex], ...req.body }; 
+    writeTask(tasks);
+
+    res.status(200).send({
+      message: "Task updated successfully",
+      task: tasks[taskIndex],
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Something went wrong with the server",
+      error: error.message,
+    });
+  }
+};
+
+// Delete a task
+export const deleteTask = (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const tasks = readTask();
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+
+    if (taskIndex === -1) {
+      return res.status(404).send({ message: "Task not found!" });
+    }
+
+    tasks.splice(taskIndex, 1); 
+    writeTask(tasks);
+
+    res.status(200).send({
+      message: "Task deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Something went wrong with the server",
+      error: error.message,
+    });
+  }
+};
