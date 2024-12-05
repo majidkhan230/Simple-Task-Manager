@@ -1,10 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
+import taskRoutes from "./routes/taskRoutes.js";
 
 
 
 const app = express()
 dotenv.config()
+
+
+app.use(express.json())
+
+
+app.use("/",taskRoutes)
+
+
 
 
 
