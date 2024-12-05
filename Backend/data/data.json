@@ -16,5 +16,12 @@
         "title": "Test the API",
         "description": "Use Postman to test all API endpoints",
         "completed": true
+    },
+    {
+        "name": "majid"
+    },
+    {
+        "name": "zohaib",
+        "age": 24
     }
 ]
