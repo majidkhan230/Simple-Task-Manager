@@ -54,28 +54,52 @@ export const createTask = (req, res) => {
 };
 
 // Update a task
+// export const updateTask = (req, res) => {
+//   try {
+//     const id = parseInt(req.params.id);
+//     const tasks = readTask();
+//     const taskIndex = tasks.findIndex((task) => task.id === id);
+
+//     if (taskIndex === -1) {
+//       return res.status(404).send({ message: "Task not found!" });
+//     }
+
+//     tasks[taskIndex] = { ...tasks[taskIndex], ...req.body };
+//     writeTask(tasks);
+
+//     res.status(200).send({
+//       message: "Task updated successfully",
+//       task: tasks[taskIndex],
+//     });
+//   } catch (error) {
+//     res.status(500).send({
+//       message: "Something went wrong with the server",
+//       error: error.message,
+//     });
+//   }
+// };
+
 export const updateTask = (req, res) => {
   try {
-    const id = parseInt(req.params.id);
-    const tasks = readTask();
-    const taskIndex = tasks.findIndex((task) => task.id === id);
+    const data = readTask()
+    const id  = req.params.id
+  
+    const taskIndex = data.findIndex((task)=>task.id == id)
 
     if (taskIndex === -1) {
-      return res.status(404).send({ message: "Task not found!" });
-    }
+            return res.status(404).send({ message: "Task not found!" });
+          }
 
-    tasks[taskIndex] = { ...tasks[taskIndex], ...req.body }; 
-    writeTask(tasks);
-
-    res.status(200).send({
-      message: "Task updated successfully",
-      task: tasks[taskIndex],
-    });
+    data[taskIndex] = {...data[taskIndex],...req.body}
+    
+    res.status(200).send(data);
   } catch (error) {
-    res.status(500).send({
-      message: "Something went wrong with the server",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .send({
+        message: "something went wrong with server",
+        error: error.message,
+      });
   }
 };
 
@@ -90,7 +114,7 @@ export const deleteTask = (req, res) => {
       return res.status(404).send({ message: "Task not found!" });
     }
 
-    tasks.splice(taskIndex, 1); 
+    tasks.splice(taskIndex, 1);
     writeTask(tasks);
 
     res.status(200).send({
